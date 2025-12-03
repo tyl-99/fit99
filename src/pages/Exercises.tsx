@@ -84,7 +84,7 @@ export const Exercises: React.FC = () => {
                     value={newExercise}
                     onChange={(e) => setNewExercise(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary btn-icon">
+                <button type="submit" className="btn btn-success btn-icon">
                     <Plus size={24} />
                 </button>
             </form>

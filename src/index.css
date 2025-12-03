@@ -66,19 +66,6 @@ body {
 
 .btn:active {
   transform: scale(0.98);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-  color: #0f172a;
-  border: none;
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
-}
-
-.btn-icon {
-  padding: 0.6rem;
-  border-radius: 50%;
-  background: transparent;
   border: none;
 }
 
