@@ -131,12 +131,14 @@ export const Session: React.FC = () => {
                     .order('created_at');
 
                 if (history && history.length > 0) {
-                    // Clone them to current session
-                    const setsToInsert = history.map(h => ({
+                    // Clone them to current session with incrementing timestamps to preserve order
+                    const baseTime = Date.now();
+                    const setsToInsert = history.map((h, i) => ({
                         session_id: id,
                         exercise_id: exerciseId,
                         weight: h.weight,
-                        reps: h.reps
+                        reps: h.reps,
+                        created_at: new Date(baseTime + i * 100).toISOString() // 100ms spacing
                     }));
 
                     const { data: newSets, error } = await supabase
@@ -148,9 +150,14 @@ export const Session: React.FC = () => {
 
                     // Update local state with new sets
                     if (newSets) {
+                        // Ensure they are sorted by created_at
+                        const sortedSets = [...newSets].sort((a, b) =>
+                            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+                        );
+
                         setSessionExercises(prev => prev.map(pe => {
                             if (pe.exercise.id === exerciseId) {
-                                return { ...pe, sets: newSets };
+                                return { ...pe, sets: sortedSets };
                             }
                             return pe;
                         }));
